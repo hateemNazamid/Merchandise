@@ -40,7 +40,7 @@
                 <i class="fas fa-history"></i>
                 <h3>Order History</h3>
                 <p>Track your purchases</p>
-                <a href="orderHistory.jsp" class="btn btn-customer">View History</a>
+                <a href="ManageOrderServlet" class="btn btn-customer">View History</a>
             </div>
             
             <div class="action-card">

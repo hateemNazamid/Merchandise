@@ -29,6 +29,10 @@
         <servlet-name>AddOrderServlet</servlet-name>
         <servlet-class>AddOrderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateAdminServlet</servlet-name>
+        <servlet-class>UpdateAdminServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AddMerchFormServlet</servlet-name>
         <url-pattern>/AddMerchFormServlet</url-pattern>
@@ -144,6 +148,10 @@
     <servlet-mapping>
         <servlet-name>AddOrderServlet</servlet-name>
         <url-pattern>/AddOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAdminServlet</servlet-name>
+        <url-pattern>/UpdateAdminServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

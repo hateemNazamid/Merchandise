@@ -43,13 +43,20 @@
                     <a href="ManageClubServlet" class="btn btn-customer">View History</a>
                 </div>
 
+                <div class="action-card">
+                    <i class="fas fa-history"></i>
+                    <h3>Order History</h3>
+                    <p>Track your purchases</p>
+                    <a href="ManageOrderServlet" class="btn btn-customer">View History</a>
+                </div>
+
 
 
                 <div class="action-card">
                     <i class="fas fa-user-cog"></i>
                     <h3>Account Settings</h3>
                     <p>Update your profile</p>
-                    <a href="updateCustomer.jsp" class="btn btn-customer">Edit Profile</a>
+                    <a href="updateAdmin.jsp" class="btn btn-customer">Edit Profile</a>
                 </div>
             </div>
         </main>
