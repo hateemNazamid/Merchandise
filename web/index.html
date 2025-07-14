@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory System Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+        /* 🎯 Animations */
+        @keyframes fadeInSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px var(--primary);
+            }
+            50% {
+                box-shadow: 0 0 15px var(--primary);
+            }
+            100% {
+                box-shadow: 0 0 5px var(--primary);
+            }
+        }
+
+        /* 💫 Local page overrides */
+        .card {
+            animation: fadeInSlide 0.8s ease-out;
+            border: 2px solid var(--primary);
+        }
+
+        .header {
+            animation: pulse 2s infinite;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .btn-primary,
+        .btn-secondary,
+        .btn-other{
+            animation: glow 2s infinite alternate;
+            text-decoration: none;
+        }
+
+        /* Extra hover pop */
+        .btn:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        /* Fancy backdrop */
+        body {
+            background: linear-gradient(to right, #e0f7fa, #ffffff);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Inventory System</div>
+
+    <main class="container">
+        <div class="card text-center">
+            <h1>Welcome to Inventory System</h1>
+
+            <div class="action-buttons" style="justify-content: center; margin-top: 2rem;">
+                <a href="userLogin.jsp" class="btn btn-primary">Login</a>
+                <a href="userRegister.jsp" class="btn btn-secondary">Register</a>
+            </div>
+            
+            <div class="quick-actions" style="margin-top: 3rem;">
+                <h3>Quick Actions:</h3>
+                <div class="action-buttons">
+                    <a href="AddMerchFormServlet" class="btn btn-other">Add Merchandise</a>
+                    <a href="manageMerch.jsp" class="btn btn-other">View Merchandise</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
