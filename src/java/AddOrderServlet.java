@@ -33,7 +33,7 @@ public class AddOrderServlet extends HttpServlet {
 
         try {
             try (Connection conn = DBConnection.createConnection()) {
-                String sql = "INSERT INTO ORDERTABLE (merchID, customerID, totalPrice, orderDate) VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO ORDERS (merchID, customerID, totalPrice, orderDate) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                     stmt.setInt(1, merchID);
                     stmt.setInt(2, customerID);

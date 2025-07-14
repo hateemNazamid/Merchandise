@@ -46,8 +46,12 @@ public class LoginDao {
             ps.setString(2, password);
             rs = ps.executeQuery();
             while(rs.next()){
-                loginBean.setID(rs.getInt("ADMINID"));               
                 loginBean.setRole("admin");
+                
+                loginBean.setID(rs.getInt("ADMINID"));               
+                loginBean.setName(rs.getString("NAME"));
+                loginBean.setUsername(rs.getString("USERNAME"));
+                loginBean.setPassword(rs.getString("PASSWORD"));
 
                 return loginBean;
             }

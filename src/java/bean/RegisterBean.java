@@ -62,6 +62,25 @@ public class RegisterBean implements Serializable{
         return type;
     }
     
+    public void setEmail(String email){
+        this.email = email;
+    }
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setUsername(String username){
+        this.username = username;
+    }
+    public void setPassword(String password){
+        this.password = password;
+    }
+    public void setAddress(String address){
+        this.address = address;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
+    
     public void setData(String name,String email, String username, String password,String address, int id){
         this.email = email;
         this.name = name;

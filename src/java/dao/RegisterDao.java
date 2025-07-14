@@ -57,16 +57,37 @@ public class RegisterDao {
     }
 
     public String updateCustomer(RegisterBean customer) {
-        String sql = "UPDATE CUSTOMER SET EMAIL=?, FULLNAME=?, PASSWORD=?, ADDRESS=? WHERE CUSTOMERID=?";
+        String custsql = "UPDATE CUSTOMER SET EMAIL = ?, FULLNAME = ?, USERNAME = ?, PASSWORD = ?, ADDRESS = ? WHERE CUSTOMERID = ?";
 
         try (Connection con = DBConnection.createConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
+                PreparedStatement ps = con.prepareStatement(custsql)) {
 
             ps.setString(1, customer.getEmail());
             ps.setString(2, customer.getName());
-            ps.setString(3, customer.getPassword());
-            ps.setString(4, customer.getAddress());
-            ps.setInt(5, customer.getId());  // <-- This is important
+            ps.setString(3, customer.getUsername());
+            ps.setString(4, customer.getPassword());
+            ps.setString(5, customer.getAddress());
+            ps.setInt(6, customer.getId());  // <-- This is important
+
+            int rowsUpdated = ps.executeUpdate();
+            return (rowsUpdated > 0) ? "SUCCESS" : "Update Failed";
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Update Failed: " + e.getMessage();
+        }
+    }
+
+    public String updateAdmin(RegisterBean admin) {
+        String adminsql = "UPDATE ADMIN SET NAME = ?, USERNAME = ?, PASSWORD = ? WHERE ADMINID = ?";
+
+        try (Connection con = DBConnection.createConnection();
+                PreparedStatement ps = con.prepareStatement(adminsql)) {
+
+            ps.setString(1, admin.getName());
+            ps.setString(2, admin.getUsername());
+            ps.setString(3, admin.getPassword());
+            ps.setInt(4, admin.getId());  // <-- This is important
 
             int rowsUpdated = ps.executeUpdate();
             return (rowsUpdated > 0) ? "SUCCESS" : "Update Failed";
