@@ -25,7 +25,6 @@
         <div class="welcome-card">
             <h1>Welcome back, <%=currentUser%>!</h1>
             
-            <p class="lead">You have <strong>3 new items</strong> available this week.</p>
         </div>
 
         <div class="action-panel">
@@ -40,7 +39,7 @@
                 <i class="fas fa-history"></i>
                 <h3>Order History</h3>
                 <p>Track your purchases</p>
-                <a href="ManageOrderServlet" class="btn btn-customer">View History</a>
+                <a href="OrderServlet" class="btn btn-customer">View History</a>
             </div>
             
             <div class="action-card">

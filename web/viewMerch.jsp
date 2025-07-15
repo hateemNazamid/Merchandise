@@ -72,6 +72,13 @@
                 font-size: 18px;
                 margin-top: 50px;
             }
+            .merch-item input[type="number"] {
+                padding: 4px;
+                text-align: center;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
         </style>
     </head>
     <body>
@@ -119,7 +126,15 @@
                     <img src="ManageImageServlet?id=<%= merchID%>" alt="Image" class="thumbnail" />
                     <h3><%= name%></h3>
                     <p>Price: $<%= String.format("%.2f", price)%></p>
-                    <a class="buy-btn" href="paymentMethod.jsp?id=<%= merchID %>&price=<%= price %>">Buy</a>
+                    <form action="paymentMethod.jsp" method="post">
+                        <input type="hidden" name="id" value="<%= merchID%>" />
+                        <input type="hidden" name="price" value="<%= price%>" />
+                        <label for="qty_<%= merchID%>">Qty:</label>
+                        <input type="number" name="quantity"  min="1" max="99" value="1" style="width: 60px; margin-bottom: 8px;" required />
+                        <br>
+                        <button type="submit" class="buy-btn">Buy</button>
+                    </form>
+
                 </div>
                 <%
                     }

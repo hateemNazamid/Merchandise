@@ -8,15 +8,17 @@
         <link rel="stylesheet" href="style/style.css">
     </head>
     <body>
-        <a href="index.html" class="go-back-btn">← Go To Main Menu</a>
+        
         <header class="header">
+            
             <div class="container navbar">
-                <div class="brand">Inventory System</div>
+                <div class="brand">Merchandise Management</div>
             </div>
         </header>
 
         <main class="container">
             <div class="form-container">
+                <a href="index.html" class="go-back-btn">← Go To Main Menu</a>
                 <h1 class="text-center">User Register</h1>
 
                 <form action="RegisterServlet" method="post">

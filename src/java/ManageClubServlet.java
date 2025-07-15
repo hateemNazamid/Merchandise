@@ -1,4 +1,3 @@
-
 import bean.ClubBean;
 import util.DBConnection;
 
@@ -21,8 +20,8 @@ public class ManageClubServlet extends HttpServlet {
         List<ClubBean> clubList = new ArrayList<>();
 
         try (Connection conn = DBConnection.createConnection()) {
-            String sql = "SELECT c.clubID, c.clubName, c.adminID, a.name AS adminName "
-                    + "FROM CLUB c JOIN ADMIN a ON c.adminID = a.adminID";
+            String sql = "SELECT c.clubID, c.clubName, c.adminID, a.name AS adminName " +
+                         "FROM CLUB c JOIN ADMIN a ON c.adminID = a.adminID";
 
             try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
                 while (rs.next()) {
@@ -37,17 +36,23 @@ public class ManageClubServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Database error: " + e.getMessage());
+            request.setAttribute("errMessage", "Database error: " + e.getMessage());
         }
 
+        // Handle success message via ?success=added / updated / deleted
         String success = request.getParameter("success");
-
-        if ("added".equals(success)) {
-            request.setAttribute("successMessage", "Merchandise added successfully!");
-        } else if ("updated".equals(success)) {
-            request.setAttribute("successMessage", "Merchandise updated successfully!");
-        } else if ("deleted".equals(success)) {
-            request.setAttribute("successMessage", "Merchandise deleted successfully!");
+        if (success != null) {
+            switch (success) {
+                case "added":
+                    request.setAttribute("successMessage", "Club added successfully!");
+                    break;
+                case "updated":
+                    request.setAttribute("successMessage", "Club updated successfully!");
+                    break;
+                case "deleted":
+                    request.setAttribute("successMessage", "Club deleted successfully!");
+                    break;
+            }
         }
 
         request.setAttribute("clubList", clubList);
@@ -68,6 +73,6 @@ public class ManageClubServlet extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Handles displaying list of Club";
+        return "Handles displaying list of clubs and success messages.";
     }
 }

@@ -22,6 +22,8 @@ public class LogoutServlet extends HttpServlet {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.html");
             requestDispatcher.forward(request,response);
             //System.out.println("Logged out");       
+        }else{
+            response.sendRedirect("index.html");
         }
         
     }

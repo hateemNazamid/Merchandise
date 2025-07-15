@@ -11,7 +11,7 @@
          <a href="index.html" class="go-back-btn">← Go To Main Menu</a>
         <header class="header">
             <div class="container navbar">
-                <div class="brand">Inventory System</div>
+                <div class="brand">Merchandise Management</div>
             </div>
         </header>
 

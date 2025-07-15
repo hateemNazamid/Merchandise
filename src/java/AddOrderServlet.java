@@ -10,93 +10,92 @@ import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+@WebServlet("/AddOrderServlet")
 public class AddOrderServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Get customer ID from session
         HttpSession session = request.getSession(false);
-        int customerID = (int) session.getAttribute("customerID");
-
-        if (session == null) {
+        if (session == null || session.getAttribute("customerID") == null) {
             response.sendRedirect("userLogin.jsp");
             return;
         }
-
-        // Get form data
-        int merchID = Integer.parseInt(request.getParameter("merchID"));
-        double price = Double.parseDouble(request.getParameter("price"));
-        Timestamp orderDate = Timestamp.valueOf(LocalDateTime.now());
-
+        int customerID = (int) session.getAttribute("customerID");
 
         try {
-            try (Connection conn = DBConnection.createConnection()) {
-                String sql = "INSERT INTO ORDERS (merchID, customerID, totalPrice, orderDate) VALUES (?, ?, ?, ?)";
-                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                    stmt.setInt(1, merchID);
-                    stmt.setInt(2, customerID);
-                    stmt.setDouble(3, price);
-                    stmt.setTimestamp(4, orderDate);
+            // Get form data
+            int merchID = Integer.parseInt(request.getParameter("merchID"));
+            double price = Double.parseDouble(request.getParameter("price"));
+            int quantity = Integer.parseInt(request.getParameter("quantity")); // Still passed from form
 
-                    int rows = stmt.executeUpdate();
-                    if (rows > 0) {
-                        // Order success
-                        response.sendRedirect("home_customer.jsp");
-                    } else {
-                        // Failed to insert
-                        request.setAttribute("error", "Failed to place order.");
+            Timestamp orderDate = Timestamp.valueOf(LocalDateTime.now());
+
+            try (Connection conn = DBConnection.createConnection()) {
+                conn.setAutoCommit(false); // Start transaction
+
+                // Insert order (without quantity)
+                String insertSql = "INSERT INTO ORDERS (merchID, customerID, totalPrice, orderDate) VALUES (?, ?, ?, ?)";
+                try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                    insertStmt.setInt(1, merchID);
+                    insertStmt.setInt(2, customerID);
+                    insertStmt.setDouble(3, price);
+                    insertStmt.setTimestamp(4, orderDate);
+                    insertStmt.executeUpdate();
+                }
+
+                // Deduct quantity from merchandise stock
+                String updateStockSql = "UPDATE MERCHANDISE SET stock = stock - ? WHERE merchID = ? AND stock >= ?";
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateStockSql)) {
+                    updateStmt.setInt(1, quantity);
+                    updateStmt.setInt(2, merchID);
+                    updateStmt.setInt(3, quantity);
+                    int rowsAffected = updateStmt.executeUpdate();
+
+                    if (rowsAffected == 0) {
+                        // Stock not sufficient or merch not found
+                        conn.rollback();
+                        request.setAttribute("error", "Not enough stock available for this item.");
                         request.getRequestDispatcher("error.jsp").forward(request, response);
+                        return;
                     }
                 }
+
+                conn.commit(); // Success
+
+                // Redirect on success
+                response.sendRedirect("home_customer.jsp");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                request.setAttribute("error", "Transaction failed: " + ex.getMessage());
+                request.getRequestDispatcher("error.jsp").forward(request, response);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "System error: " + e.getMessage());
-            request.getRequestDispatcher("order.jsp").forward(request, response);
+            request.setAttribute("error", "Invalid request: " + e.getMessage());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Handles placing an order and deducting stock";
+    }
 }

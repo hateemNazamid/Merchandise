@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="style/style.css">
     </head>
     <body>
+        <a href="home_customer.jsp" class="go-back-btn">← Go To Main Menu</a>
         <main class="container">
             <div class="form-container">
                 <h1 class="text-center">Edit Your Profile</h1>

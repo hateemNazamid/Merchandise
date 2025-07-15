@@ -1,56 +1,80 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
+
 <html>
     <head>
-        <meta charset="UTF-8">
         <title>Update Merchandise</title>
+        <link rel="stylesheet" href="style/style.css">
     </head>
     <body>
-        <h1>Update Merchandise</h1>
+        <a href="ManageMerchServlet" class="go-back-btn">← Back to Merchandise</a>
 
-        <form action="UpdateMerchServlet" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="merchID" value="${merch.merchID}">
+        <main class="container">
+            <div class="form-container">
+                <h1 class="text-center">Update Merchandise</h1>
 
-            <label>Merchandise Name:</label>
-            <input type="text" name="merch" value="${merch.merchName}"><br>
+                <form action="UpdateMerchServlet" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="merchID" value="${merch.merchID}" />
 
-            <label>Category:</label>
-            <select name="category">
-                <option value="apparel" ${merch.category == 'apparel' ? 'selected' : ''}>Apparel</option>
-                <option value="accessory" ${merch.category == 'accessory' ? 'selected' : ''}>Accessories</option>
-                <option value="bag" ${merch.category == 'bag' ? 'selected' : ''}>Bags</option>
-                <option value="stationery" ${merch.category == 'stationery' ? 'selected' : ''}>Stationery</option>
-            </select><br>
+                    <!-- Merchandise Name -->
+                    <div class="form-group">
+                        <label>Merchandise Name:</label>
+                        <input type="text" name="merch" value="${merch.merchName}" class="form-control" required />
+                    </div>
 
-            <label>Price:</label>
-            <input type="number" step="0.01" name="price" value="${merch.price}"><br>
+                    <!-- Category -->
+                    <div class="form-group">
+                        <label>Category:</label>
+                        <select name="category" class="form-control" required>
+                            <option value="apparel" ${merch.category == 'apparel' ? 'selected' : ''}>Apparel</option>
+                            <option value="accessory" ${merch.category == 'accessory' ? 'selected' : ''}>Accessories</option>
+                            <option value="bag" ${merch.category == 'bag' ? 'selected' : ''}>Bags</option>
+                            <option value="stationery" ${merch.category == 'stationery' ? 'selected' : ''}>Stationery</option>
+                        </select>
+                    </div>
 
-            <label>Stock:</label>
-            <input type="number" name="stock" value="${merch.stock}"><br>
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label>Price (RM):</label>
+                        <input type="number" step="0.01" name="price" value="${merch.price}" class="form-control" required />
+                    </div>
 
-            <label>Club ID:</label>
-            <label>Club:</label>
-            <select name="clubID">
-                <c:forEach var="club" items="${clubs}">
-                    <option value="${club.clubID}">${club.clubName}</option>
-                </c:forEach>
-            </select><br>
+                    <!-- Stock -->
+                    <div class="form-group">
+                        <label>Stock:</label>
+                        <input type="number" name="stock" value="${merch.stock}" class="form-control" required />
+                    </div>
 
-            <label>Update Image (optional):</label>
-            <input type="file" name="image"><br>
+                    <!-- Club ID -->
+                    <div class="form-group">
+                        <label>Club:</label>
+                        <select name="clubID" class="form-control" required>
+                            <c:forEach var="club" items="${clubs}">
+                                <option value="${club.clubID}" 
+                                    <c:if test="${club.clubID == merch.clubID}">selected</c:if>>
+                                    ${club.clubName}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
 
-            <input type="submit" value="Update">
-        </form>
+                    <!-- Image Upload -->
+                    <div class="form-group">
+                        <label>Update Image (optional):</label>
+                        <input type="file" name="image" class="form-control" />
+                    </div>
 
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <input type="submit" value="Update Merchandise" class="btn btn-primary" />
+                    </div>
+                </form>
 
-        <%
-            String err = (String) request.getAttribute("errMessage");
-            if (err != null) {
-        %>
-        <p style="color:red;"><%= err%></p>
-        <%
-            }
-        %>
+                <!-- Error Message -->
+                <c:if test="${not empty errMessage}">
+                    <div class="alert alert-danger">${errMessage}</div>
+                </c:if>
+            </div>
+        </main>
     </body>
 </html>

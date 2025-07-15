@@ -3,11 +3,13 @@ package bean;
 import java.util.Date;
 
 public class OrderBean {
+
     private int orderID;
     private int merchID;
     private int customerID;
     private double totalPrice;
     private Date orderDate;
+    private MerchBean merch;
 
     // Default constructor
     public OrderBean() {
@@ -61,5 +63,13 @@ public class OrderBean {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public MerchBean getMerch() {
+        return merch;
+    }
+
+    public void setMerch(MerchBean merch) {
+        this.merch = merch;
     }
 }

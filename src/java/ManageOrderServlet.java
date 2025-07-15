@@ -53,12 +53,20 @@ public class ManageOrderServlet extends HttpServlet {
                 }
             }
 
-            // 4. Top-selling merch
-            try (Statement stmt3 = conn.createStatement();
-                    ResultSet rs3 = stmt3.executeQuery("SELECT merchID, COUNT(*) AS orderCount FROM ORDERS GROUP BY merchID ORDER BY orderCount DESC LIMIT 5")) {
+            // 4. Top-selling merch with name
+            String topMerchSQL = "SELECT m.merchID, m.name AS merchName, COUNT(o.orderID) AS orderCount "
+                    + "FROM ORDERS o "
+                    + "JOIN MERCHANDISE m ON o.merchID = m.merchID "
+                    + "GROUP BY m.merchID, m.name "
+                    + "ORDER BY orderCount DESC "
+                    + "FETCH FIRST 5 ROWS ONLY";
+
+            try (PreparedStatement ps = conn.prepareStatement(topMerchSQL);
+                    ResultSet rs3 = ps.executeQuery()) {
                 while (rs3.next()) {
                     Map<String, Object> item = new HashMap<>();
                     item.put("merchID", rs3.getInt("merchID"));
+                    item.put("merchName", rs3.getString("merchName"));
                     item.put("orderCount", rs3.getInt("orderCount"));
                     topMerchList.add(item);
                 }
@@ -73,7 +81,7 @@ public class ManageOrderServlet extends HttpServlet {
         request.setAttribute("totalRevenue", totalRevenue);
         request.setAttribute("topMerchList", topMerchList);
 
-        request.getRequestDispatcher("manageOrder.jsp").forward(request, response);
+        request.getRequestDispatcher("manageOrderAdmin.jsp").forward(request, response);
     }
 
     @Override

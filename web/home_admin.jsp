@@ -23,14 +23,14 @@
         <main class="container">
             <div class="welcome-card">
                 <h1>Welcome back, <%=currentAdmin%>!</h1>
-                <p class="lead">You have <strong>3 new items</strong> available this week.</p>
+                
             </div>
 
             <div class="action-panel">
                 <div class="action-card">
                     <i class="fas fa-tshirt"></i>
                     <h3>Browse Merchandise</h3>
-                    <p>Explore our latest products</p>
+                    <p>Manage Merchandises</p>
                     <a href="ManageMerchServlet" class="btn btn-customer">View Catalog</a>
                 </div>
 
@@ -40,14 +40,14 @@
                     <i class="fas fa-history"></i>
                     <h3>Club Overview</h3>
                     <p>Manage Clubs</p>
-                    <a href="ManageClubServlet" class="btn btn-customer">View History</a>
+                    <a href="ManageClubServlet" class="btn btn-customer">View Clubs</a>
                 </div>
 
                 <div class="action-card">
                     <i class="fas fa-history"></i>
                     <h3>Order History</h3>
-                    <p>Track your purchases</p>
-                    <a href="ManageOrderServlet" class="btn btn-customer">View History</a>
+                    <p>Track user orders</p>
+                    <a href="ManageOrderServlet" class="btn btn-customer">View Order History</a>
                 </div>
 
 
